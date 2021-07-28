@@ -24,14 +24,56 @@ The Internet has realized the efficient transmission of information where the co
 **Dapp (Web test network)**
 https://test.hazelword.org
 
+**Product Architecture**
 
+![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/project.jpg)
+
+**Quotation Process**
+Hazelword provides the idea of a multi-party game, using quotation, arbitrage verification, quote vault, price chain, trusted TEE module, security module, DAO autonomy and other modules to form a safe real-time decentralized oracle system, The following is the main process part of ETH/USDT trading pair mining:
 ![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/hzl-en.jpg)
 
-* An overview of the technology stack to be used
-* Documentation of core components, protocols, architecture, etc. to be deployed
-* PoC/MVP or other relevant prior work or research on the topic
-* What your project is _not_ or will _not_ provide or implement
-  * This is a place for you to manage expectations and to clarify any limitations that might not be obvious
+**Participant Description:**
+Quoter: Participants who provide quotes, including three parts: 
+1. All quote miners
+2. Quote vault
+3. Take orders and quote validators
+
+Verifier: If a quotation deviates from the market price, the verifier can trade with the quotation asset to obtain the benefit of the difference. While eating the quotation of the quotation, the verifier needs to provide a compensation quotation for the quotation price as Provide more honest quotation data, making the price infinitely close to the real market price. Contains two parts: 
+1. All verifiers
+2. Verifier Quote vault
+
+Quote Vault: The Quote Vault is divided into two parts
+1. The Quote Vault mentioned in the appeal
+2. The verifier Quote Vault, the function of changing the Quote Vault is to provide honest quotations for mining and find that the quotations that deviate from the market are corrected and profited. The function of this module is mainly in two aspects: 
+       1. It is convenient for anyone to participate in the system to obtain benefits
+       2. Participants and institutions jointly maintain the security of the system
+
+TEE module: Provide reliable external prices for Quote Vault use.
+
+Price chain: According to the mining rules, every T1 time period, all valid quotations (quotes that have not been taken) within this period of time are used to generate the final price of the block N of the transaction pair according to the weight.
+
+Price caller: Only need to pay a certain fee or purchase a certain number of queries to get the current price of all trading pairs in the current block, and any contract or account can become a price caller.
+
+**Quotation mining has been price verified**
+Taking ETH/USDT as an example, a miner intends to quote 1ETH=2000USDT. He needs to transfer the quoted assets ETH and USDT to the quoted contract, the scale is xETH and 2000xUSDT, the commission paid is λx2000HZL, and he participates in mining according to the commission scale paid. Get HZL. Anyone can become a miner at any time, and the price and scale are independently set by him (greater than or equal to the minimum quotation unit). At the same time, the Quote Vault will use the quotation funds in the pool to automatically provide quotations according to the storage user's choice. After the miner submits the asset and price to the quotation contract, any validator believes that there is room for arbitrage at the price, and can trade ETH or USDT according to the quotation in the quotation pool 1ETH=2000USDT. This mechanism ensures that the quotation is either a fair price in the market or an equivalent price recognized by the quoter (that is, 1ETH and 2000USDT are equivalent). Of course, the verifier is two-way, and the execution power eats the quotation 1ETH=2000USDT At the same time, you need to provide your own quotation. This process is the price verification period.
+
+Of course, during the mining cycle T1, there may be price fluctuations. Therefore, if miners want to minimize their own costs, they need to report the price that is least likely to be traded during the verification period, which means that the miners’ quotation has a certain degree of future price. For the prediction and discovery function, for the verifier, whether arbitrage depends on the deviation between the quoted price and the market equilibrium price. We call the minimum deviation of the action taken by the verifier as the minimum arbitrage space. This value depends on the length and length of the verification period. transaction cost.
+
+**Price chain Generation**
+According to the Quotation Mining Agreement, the price of a transaction pair quoted by the bidder in this T1 cycle is A1, A2, A3...AN, and the quantity is n1, n2...ni. In the agreement, the verifier is After the price of a quoter is traded, a new price needs to be forced to be quoted. For example, A2, A3 is found by the verifier to have arbitrage space, then after the transaction, a new quote will be provided B2=y1A2,B3=y2A3, of course, if other verifications feel that B3 There is also arbitrage space, then B3 will be taken and a new quotation C3=y3B3 will be provided. By analogy, a continuous price chain with T1 as the maximum quotation time interval is formed: A1—B2—C3...AN , When this time period T1 ends, it will be calculated within the changed block, so the price of the transaction pair P=∑Ai*ni/Ni
+
+**TEE encryption oracle**
+![alt tee encryption](https://github.com/Hazelword/hzl-sol/blob/main/doc/tee.jpg)
+Application contract：On-chain applications deploy and run smart contracts on the blockchain
+HazelWord Open Oracle contract：HazelWord smart contract deployed on the Polkadot blockchain
+HazelWord example：A trusted HTTPS/RPC client implemented in TEE, which processes web requests and returns a certified response result
+Configuration Management Service：Configure user contract permission to use service permissions and configurations
+HazelWord Service：The HazelWord service management dispatch center manages HazelWord Open Oracle contracts and HazelWord instances, and dispatches Oracle contract requests to Oracle instances for execution
+Web data source：The data source web server can be publicly verified without permission, or verified with permission.
+
+![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/quote-vault.jpg)
+In order to reduce the cost of ordinary users participating in quotation, it has truly become a decentralized quotation model. HazelWord provides users with automated quotation arbitrage capabilities by providing different on-chain strategy Quote Vault, which improves user asset income while solving the initial cold start problem of the agreement, and also provides more guarantees for the safety of the Hazel agreement.
+
 
 ### Ecosystem Fit
 
