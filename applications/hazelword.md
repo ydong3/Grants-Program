@@ -26,7 +26,7 @@ https://test.hazelword.org
 
 **Product Architecture**
 
-![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/project.jpg)
+![alt Product Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/project.png)
 
 **Quotation Process**
 Hazelword provides the idea of a multi-party game, using quotation, arbitrage verification, quote vault, price chain, trusted TEE module, security module, DAO autonomy and other modules to form a safe real-time decentralized oracle system, The following is the main process part of ETH/USDT trading pair mining:
@@ -63,7 +63,7 @@ Of course, during the mining cycle T1, there may be price fluctuations. Therefor
 According to the Quotation Mining Agreement, the price of a transaction pair quoted by the bidder in this T1 cycle is A1, A2, A3...AN, and the quantity is n1, n2...ni. In the agreement, the verifier is After the price of a quoter is traded, a new price needs to be forced to be quoted. For example, A2, A3 is found by the verifier to have arbitrage space, then after the transaction, a new quote will be provided B2=y1A2,B3=y2A3, of course, if other verifications feel that B3 There is also arbitrage space, then B3 will be taken and a new quotation C3=y3B3 will be provided. By analogy, a continuous price chain with T1 as the maximum quotation time interval is formed: A1—B2—C3...AN , When this time period T1 ends, it will be calculated within the changed block, so the price of the transaction pair P=∑Ai*ni/Ni
 
 **TEE encryption oracle**
-![alt tee encryption](https://github.com/Hazelword/hzl-sol/blob/main/doc/tee.jpg)
+![alt tee encryption](https://github.com/Hazelword/hzl-sol/blob/main/doc/tee.png)
 Application contract：On-chain applications deploy and run smart contracts on the blockchain
 HazelWord Open Oracle contract：HazelWord smart contract deployed on the Polkadot blockchain
 HazelWord example：A trusted HTTPS/RPC client implemented in TEE, which processes web requests and returns a certified response result
@@ -71,7 +71,7 @@ Configuration Management Service：Configure user contract permission to use ser
 HazelWord Service：The HazelWord service management dispatch center manages HazelWord Open Oracle contracts and HazelWord instances, and dispatches Oracle contract requests to Oracle instances for execution
 Web data source：The data source web server can be publicly verified without permission, or verified with permission.
 
-![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/quote-vault.jpg)
+![alt Contract Architecture](https://github.com/Hazelword/hzl-sol/blob/main/doc/quote-vault.png)
 In order to reduce the cost of ordinary users participating in quotation, it has truly become a decentralized quotation model. HazelWord provides users with automated quotation arbitrage capabilities by providing different on-chain strategy Quote Vault, which improves user asset income while solving the initial cold start problem of the agreement, and also provides more guarantees for the safety of the Hazel agreement.
 
 
